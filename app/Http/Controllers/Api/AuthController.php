@@ -105,23 +105,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(Request $request,$id) {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
+    public function edit(Request $request) {
 
-        $user=User::findorfail($id);
 
-        if ($request->photo == "") {
-            $path = $user->photo;
-        }else{
-            $path = $this->uploadImage($request, 'team');
-        }
+
+       $user = auth()->guard('api')->user();
+
         $user->update([
             'name'=> $request->name,
             'password' => bcrypt($request->password),
@@ -129,14 +118,17 @@ class AuthController extends Controller
             'address'=> $request->address,
             'latitude'=> $request->latitude,
             'longitude'=> $request->longitude,
-            'photo'=> $path,
+            'photo'=> $request->photo,
             'phone'=> $request->phone,
             'gender'=> $request->gender,
             'user_type'=> $request->user_type,
-
         ]);
 
+        return response()->json([
+            'message' => 'User successfully updated',
 
+            'user'=>$user,
+        ], 201);
     }
     /**
      * Get the token array structure.
