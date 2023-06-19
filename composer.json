@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.2",
+        "mcamara/laravel-localization": "^1.8",
         "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {

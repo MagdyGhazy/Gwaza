@@ -14,13 +14,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-
 Auth::routes();
+
+
+
+Route::group(['prefix' => LaravelLocalization::setLocale(),
+    'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
+],function()
+{
+    /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
+    Route::get('/', function()
+    {
+        return View('auth.login');
+    });
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
+   });
