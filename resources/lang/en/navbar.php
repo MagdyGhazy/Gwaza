@@ -26,6 +26,6 @@ return [
     'Processes'=>'Processes',
     'Edit'=>'Edit',
     'Delete'=>'Delete',
-    'Close' => 'Close',
+    'logout' => 'logout',
 
 ];
