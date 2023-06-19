@@ -16,31 +16,23 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->delete();
-        $name='admin';
-        $email='admin@admin.com';
-        $password='12345678';
-        $address='elmahala';
-        $gender='1';
-        $usertype='1';
-        $latitude='30.11';
-        $longitude='30.28';
-        $phone='012714';
+
+        $admin = User::updateOrCreate(['email'=>'admin@app.com'],[
+            'email'     => 'admin@app.com',
+            'name'      => 'Super Admin',
+            'password'  => bcrypt('password'),
+            'address'=>'elmahala',
+            'gender'=>'1',
+            'user_type'=>'1',
+            'latitude'=>'30.11',
+            'longitude'=>'30.28',
+            'phone'=>'012714'
+        ]);
+
+//        $admin->assignRole('Super Admin');
+//        $this->command->info('Admin Account Has Been Created Successfully');
 
 
-        foreach ($bgs as $bg)
-        {
-            User::create([
-                'Name'=>$name,
-                'email'=>$email,
-                'password'=>$password,
-                'address'=>$address,
-                'latitude'=> $latitude,
-                'longitude'=>$longitude,
-                'phone'=>$phone,
-                'gender'=> $gender,
-                'user_type'=> $usertype,
-            ]);
-        }
+
     }
 }
