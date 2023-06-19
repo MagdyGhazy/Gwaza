@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,18 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-
+Route::get('/', function()
+{
+    return View('auth.login');
+});
 
 Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
 ],function()
 {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
-    Route::get('/', function()
-    {
-        return View('auth.login');
-    });
+
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-
+Route::resource('profile',ProfileController::class);
    });
