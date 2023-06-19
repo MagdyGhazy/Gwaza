@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,13 +15,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 
 Route::get('/', function () {
     return view('auth.login');
 });
 
 
-Auth::routes();
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+
 
