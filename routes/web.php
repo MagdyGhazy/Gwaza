@@ -1,7 +1,9 @@
 <?php
 
 use App\Enums\UserRoleEnum;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,25 +19,25 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::get('/', function () {
-    return view('auth.login');
-});
-
-
-
-
-
 Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
-],function()
-{
+],function() {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
-    Route::get('/', function()
-    {
+    Route::get('/', function () {
         return View('auth.login');
     });
 
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    Route::view('/Admin_profile', 'Admin.profile')->name('Admin_profile');
 
 
+
+
+    Route::middleware([])->group(function () {
+        Route::get('/posts', [PostController::class, 'index'])->name('AllPosts');
+        Route::get('/comments', [CommentController::class, 'index'])->name('AllComments');
+    });
+
+});
 

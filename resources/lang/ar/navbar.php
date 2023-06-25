@@ -1,6 +1,8 @@
 <?php
 return [
 
+
+    'Dashboard' => 'الرئيسية',
     'title_page' => 'الاقسام',
     'Sections' => ' الاقسام',
     'Sections_list' => 'قائمة الاقسام',

@@ -106,15 +106,15 @@
                         <div class="dropdown-header">
                             <div class="media">
                                 <div class="media-body">
-                                    <h5 class="mt-0 mb-0">Michael Bean</h5>
-                                    <span>michael-bean@mail.com</span>
+                                    <h5 class="mt-0 mb-0">{{auth()->user()->name}}</h5>
+                                    <span>{{auth()->user()->email}}</span>
                                 </div>
                             </div>
                         </div>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><i class="text-secondary ti-reload"></i>Activity</a>
                         <a class="dropdown-item" href="#"><i class="text-success ti-email"></i>Messages</a>
-                        <a class="dropdown-item" href="#"><i class="text-warning ti-user"></i>Profile</a>
+                        <a class="dropdown-item" href="{{ route('Admin_profile') }}"><i class="text-warning ti-user"></i>Profile</a>
                         <a class="dropdown-item" href="#"><i class="text-dark ti-layers-alt"></i>Projects <span
                                 class="badge badge-info">6</span> </a>
                         <div class="dropdown-divider"></div>

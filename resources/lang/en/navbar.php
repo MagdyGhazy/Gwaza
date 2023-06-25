@@ -1,6 +1,7 @@
 <?php
 return [
 
+    'Dashboard' => 'Dashboard',
     'title_page' => 'sections',
     'Sections' => 'sections',
     'Sections_list' => 'sections list',
