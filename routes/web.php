@@ -23,9 +23,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
 ],function() {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
-    Route::get('/', function () {
-        return View('auth.login');
+
+    Route::group(['middleware'=>['guest']],function ()
+    {
+        Route::get('/',function ()
+        {
+            return view('auth.login');
+        });
+
     });
+
 
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
