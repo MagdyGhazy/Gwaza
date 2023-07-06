@@ -24,20 +24,37 @@ Route::group([
     'prefix' => 'auth'
 ], function ($router) {
 
-    Route::controller(AuthController::class)->group(function () {
-        Route::post('/login', 'login');
-        Route::post('/register',  'register');
-        Route::post('/logout', 'logout');
-        Route::post('/refresh','refresh');
-        Route::get('/user-profile', 'userProfile');
-        Route::post('/edit-profile', 'edit');
+        Route::controller(AuthController::class)->group(function () {
+            Route::post('/login', 'login');
+            Route::post('/register',  'register');
+            Route::post('/logout', 'logout');
+            Route::post('/refresh','refresh');
+            Route::get('/user-profile', 'userProfile');
+            Route::post('/edit-profile', 'edit');
     });
+
+});
+Route::group([
+    'middleware' => 'CheckUserTypeApi',
+    'prefix' => 'auth'
+],function () {
 
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index');
-        Route::post('/addPost',  'store');
         Route::post('/delPost/{id}', 'destroy');
+    });
+
+});
+
+Route::group([
+    'prefix' => 'auth'
+],function () {
+
+    Route::controller(PostController::class)->group(function () {
+        Route::post('/addPost',  'store');
         Route::post('/editPost/{id}', 'update');
+        Route::post('/customDelPost/{id}', 'customDestroy');
+
     });
 
 });

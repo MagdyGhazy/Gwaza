@@ -18,61 +18,41 @@ class PostController extends Controller
 
     public function index()
     {
-        if (auth()->guard('api')->user()){
-
-            if ( auth()->guard('api')->user()->user_type == UserRoleEnum::ADMIN) {
-                $posts = PostResource::collection(Post::get());
-                if ($posts) {
-                    return $this->apiResponse($posts, 200, 'done');
-                } else {
-                    return $this->apiResponse(null, 404, 'there are no posts');
-                }
-            }
-            return response()->json(['message' => 'you are not permissioned']);
-
+        $posts = PostResource::collection(Post::get());
+        if ($posts) {
+            return $this->apiResponse($posts, 200, 'done');
+        } else {
+            return $this->apiResponse(null, 404, 'there are no posts');
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     public function store(Request $request)
     {
-
-        if (auth()->guard('api')->user()) {
-            if (auth()->guard('api')->user()->user_type == UserRoleEnum::ADMIN) {
-
-                if ($request->photo == null) {
-                    $imgPath = null;
-                } else {
-                    $imgPath = $this->uploadImage($request, 'Post/img');
-                }
-
-                if ($request->video == null) {
-                    $vidPath = null;
-                } else {
-                    $vidPath = $this->uploadImage($request, 'Post/vid');
-                }
-
-                $posts = Post::create([
-                    'postBody' => $request->postBody,
-                    'userId' => auth()->guard('api')->user()->id,
-                    'photo' => $imgPath,
-                    'video' => $vidPath,
-                ]);
-                if ($posts) {
-                    return $this->apiResponse($posts, 201, 'Add Success');
-                }
-                return $this->apiResponse(null, 404, 'Cannot Add Post');
-
-            }
-            return response()->json(['message' => 'you are not permissioned']);
+        if ($request->photo == null) {
+            $imgPath = null;
+        } else {
+            $imgPath = $this->uploadImage($request, 'Post/img');
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        if ($request->video == null) {
+            $vidPath = null;
+        } else {
+            $vidPath = $this->uploadImage($request, 'Post/vid');
+        }
+        $posts = Post::create([
+            'postBody' => $request->postBody,
+            'userId' => auth()->guard('api')->user()->id,
+            'photo' => $imgPath,
+            'video' => $vidPath,
+        ]);
+        if ($posts) {
+            return $this->apiResponse($posts, 201, 'Add Success');
+        }
+        return $this->apiResponse(null, 404, 'Cannot Add Post');
     }
 
 
     public function update(Request $request,$id){
 
-        if (auth()->guard('api')->user()) {
                 $posts = Post::findorfail($id);
                 if ($posts->userId == auth()->guard('api')->user()->id) {
                     if ($request->photo == "") {
@@ -97,8 +77,6 @@ class PostController extends Controller
                     return $this->apiResponse(null, 404, 'Cannot Ubdate Post');
                 }
                 return response()->json(['message' => 'you are not permissioned']);
-        }
-        return response()->json(['error' => 'Unauthorized'], 401);
     }
 
     public function destroy($id){
@@ -109,5 +87,16 @@ class PostController extends Controller
         }
         return $this->apiResponse($posts,401,'Cannot Find To delete');
 
+    }
+    public function customDestroy($id){
+        $posts = Post::find($id);
+        if ($posts->userId == auth()->guard('api')->user()->id) {
+            if ($posts) {
+                $posts->delete();
+                return $this->apiResponse(null, 200, 'Post has been deleted');
+            }
+            return $this->apiResponse($posts, 401, 'Cannot Find To delete');
+        }
+        return response()->json(['message' => 'you are not permissioned']);
     }
 }

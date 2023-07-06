@@ -19,7 +19,8 @@ use Illuminate\Support\Facades\Route;
 */
 Auth::routes();
 
-Route::group(['prefix' => LaravelLocalization::setLocale(),
+Route::group([
+    'prefix' => LaravelLocalization::setLocale(),
     'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath','auth']
 ],function() {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
@@ -33,15 +34,18 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
     });
 
+    Route::group(['middleware'=>['CheckUserType']],function ()
+    {
+        Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-
-    Route::view('/Admin_profile', 'Admin.profile')->name('Admin_profile');
+        Route::view('/Admin_profile', 'Admin.profile')->name('Admin_profile');
 
 
+        Route::resource('posts', PostController::class);
 
-        Route::resource('posts',PostController::class);
         Route::get('/comments', [CommentController::class, 'index'])->name('AllComments');
+
+    });
 
 });
 

@@ -2,7 +2,7 @@
 @section('css')
 
 @section('title')
-    empty
+    Admin Profile
 @stop
 @endsection
 @section('page-header')
