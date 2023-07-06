@@ -62,7 +62,7 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="calendar-menu" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="{{route('AllPosts')}}">List Posts </a> </li>
+                            <li> <a href="{{route('posts.index')}}">List Posts </a> </li>
                             <li> <a href="{{route('AllComments')}}">Comments</a> </li>
                         </ul>
                     </li>

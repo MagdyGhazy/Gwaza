@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 trait UploadImage
 {
     public function uploadImage(Request $request,$folderName){
-        $image = $request->file('image')->getClientOriginalName();
-        $path = $request->file('image')->storeAs($folderName,$image,'save');
+        $image = $request->file('photo')->getClientOriginalName();
+        $path = $request->file('photo')->storeAs($folderName,$image,'save');
         return $path;
     }
 

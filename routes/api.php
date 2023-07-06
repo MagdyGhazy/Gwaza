@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});Route::group([
+});
+Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 ], function ($router) {
@@ -32,9 +33,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         Route::post('/edit-profile', 'edit');
     });
 
-
-    Route::get('/posts',[PostController::class,'index']);
-    Route::post('/addPost',[PostController::class,'store']);
+    Route::controller(PostController::class)->group(function () {
+        Route::get('/posts', 'index');
+        Route::post('/addPost',  'store');
+        Route::post('/delPost/{id}', 'destroy');
+        Route::post('/editPost/{id}', 'update');
+    });
 
 });
 

@@ -37,13 +37,13 @@
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                     <tr>
-                        <th>User</th>
-                        <th>Post Body</th>
-                        <th>Post photo</th>
-                        <th>Post video</th>
-                        <th>Comments</th>
-                        <th>Likes</th>
-                        <th>Actions</th>
+                        <th style="width: 20%">User</th>
+                        <th style="width: 25%">Post Body</th>
+                        <th style="width: 20%">Post photo</th>
+                        <th style="width: 20%">Post video</th>
+                        <th style="width: 5%">Comments</th>
+                        <th style="width: 5%">Likes</th>
+                        <th style="width: 5%">Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -68,7 +68,13 @@
                             <p class="fw-normal mb-1">{{$post->postBody}}</p>
                         </td>
                         <td>
-                            <p class="fw-normal mb-1">{{$post->photo}}</p>
+                            <img style="width: 20%"
+                                 @if($post->photo == null)
+                                     src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
+                                 @else
+                                     src="{{asset('img/'.$post->photo)}}" class="testimonial-img" alt=""
+                                @endif
+                            >
                         </td>
                         <td>
                             <p class="fw-normal mb-1">{{$post->video}}</p>
@@ -76,22 +82,23 @@
                         </td>
 
 
-                        <td>
+                        <td style="text-align: center">
                             <p class="fw-normal mb-1">{{count($post->comments)}}</p>
 
                         </td>
 
-                        <td>
+                        <td style="text-align: center">
                             <p class="fw-normal mb-1">{{$post->likes}}</p>
 
                         </td>
-                        <td>
-                            <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                Edit
-                            </button>
+                        <td style="text-align: center">
+                            <form action="{{route('posts.destroy',$post->id)}}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"class="btn btn-danger"><i class="fa-light fa-trash fa-beat"></i></button>
+                            </form>
                         </td>
                     </tr>
-
                     @endforeach
                     </tbody>
                 </table>

@@ -33,11 +33,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(),
 
 
 
-
-    Route::middleware([])->group(function () {
-        Route::get('/posts', [PostController::class, 'index'])->name('AllPosts');
+        Route::resource('posts',PostController::class);
         Route::get('/comments', [CommentController::class, 'index'])->name('AllComments');
-    });
 
 });
 
