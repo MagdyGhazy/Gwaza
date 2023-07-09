@@ -53,7 +53,11 @@
                         <td>
                             <div class="d-flex align-items-center">
                                 <img
-                                    src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                    @if($post->users->photo == null)
+                                        src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
+                                    @else
+                                        src="{{asset('img/'.$post->users->photo)}}" class="testimonial-img" alt=""
+                                    @endif
                                     alt=""
                                     style="width: 45px; height: 45px"
                                     class="rounded-circle"
@@ -70,15 +74,20 @@
                         <td>
                             <img style="width: 20%"
                                  @if($post->photo == null)
-                                     src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
+                                     src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
                                  @else
                                      src="{{asset('img/'.$post->photo)}}" class="testimonial-img" alt=""
                                 @endif
                             >
                         </td>
                         <td>
-                            <p class="fw-normal mb-1">{{$post->video}}</p>
-
+                            @if($post->video == null)
+                                <img style="width: 15%" src="{{asset('assets/images/no_video.png')}}" class="testimonial-img" alt="">
+                            @else
+                                <video width="20%" height="20%" controls>
+                                    <source src="{{asset('img/'.$post->video)}}" type="video/mp4">
+                                </video>
+                            @endif
                         </td>
 
 

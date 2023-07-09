@@ -71,6 +71,7 @@ class Kernel extends HttpKernel
         'localeViewPath'          => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
         'CheckUserType' => \App\Http\Middleware\CheckUserType::class,
         'CheckUserTypeApi' => \App\Http\Middleware\CheckUserTypeApi::class,
+        'UserAuth' => \App\Http\Middleware\UserAuth::class,
 
     ];
 }

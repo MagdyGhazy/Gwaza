@@ -14,11 +14,17 @@ class Comment extends Model
         'userId',
         'commentBody',
         'likes',
+        'photo',
+        'video',
     ];
 
     public function users()
     {
         return $this->belongsTo(User::class, 'userId');
+    }
+    public function comments()
+    {
+        return $this->belongsTo(Post::class,'postId');
     }
 
 }

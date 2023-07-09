@@ -43,7 +43,7 @@ Route::group([
 
         Route::resource('posts', PostController::class);
 
-        Route::get('/comments', [CommentController::class, 'index'])->name('AllComments');
+        Route::resource('/comments', CommentController::class);
 
     });
 

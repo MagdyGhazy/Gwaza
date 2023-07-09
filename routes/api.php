@@ -40,21 +40,31 @@ Route::group([
 ],function () {
 
     Route::controller(PostController::class)->group(function () {
-        Route::get('/posts', 'index');
         Route::post('/delPost/{id}', 'destroy');
+    });
+    Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
+        Route::post('/delComment/{id}', 'destroy');
     });
 
 });
 
 Route::group([
-    'prefix' => 'auth'
+    'middleware' => 'UserAuth',
+    'prefix' => 'auth',
 ],function () {
 
     Route::controller(PostController::class)->group(function () {
+        Route::get('/posts', 'index');
         Route::post('/addPost',  'store');
         Route::post('/editPost/{id}', 'update');
         Route::post('/customDelPost/{id}', 'customDestroy');
+    });
 
+    Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
+        Route::get('/comments', 'index');
+        Route::post('/addComment',  'store');
+        Route::post('/editComment/{id}', 'update');
+        Route::post('/customDelComment/{id}', 'customDestroy');
     });
 
 });

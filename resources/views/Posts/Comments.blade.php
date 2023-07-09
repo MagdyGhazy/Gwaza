@@ -37,23 +37,29 @@
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                     <tr>
-                        <th>User</th>
-                        <th>Comment</th>
-                        <th>Comment photo</th>
-                        <th>Comment video</th>
-                        <th>Likes</th>
-                        <th>Post Id</th>
-                        <th>Actions</th>
+
+                        <th style="width: 20%">User</th>
+                        <th style="text-align: center;width: 25%">Comment Body</th>
+                        <th style="text-align: center;width: 20%">Comment photo</th>
+                        <th style="text-align: center;width: 20%">Comment video</th>
+                        <th style="text-align: center;width: 5%">PostId</th>
+                        <th style="text-align: center;width: 5%">Likes</th>
+                        <th style="text-align: center;width: 5%">Actions</th>
+
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($comments as $comment)
 
                         <tr>
-                            <td>
+                            <td style="width: 20%">
                                 <div class="d-flex align-items-center">
                                     <img
-                                        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                                        @if($comment->users->photo == null)
+                                            src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
+                                        @else
+                                            src="{{asset('img/'.$comment->users->photo)}}" class="testimonial-img" alt=""
+                                        @endif
                                         alt=""
                                         style="width: 45px; height: 45px"
                                         class="rounded-circle"
@@ -64,30 +70,44 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+
+                            <td style="text-align: center;width: 25%">
                                 <p class="fw-normal mb-1">{{$comment->commentBody}}</p>
                             </td>
-                            <td>
-                                <p class="fw-normal mb-1">{{$comment->photo}}</p>
+                            <td style="text-align: center;width: 20%">
+                                <img style="width: 20%"
+                                     @if($comment->photo == null)
+                                         src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
+                                     @else
+                                         src="{{asset('img/'.$comment->photo)}}" class="testimonial-img" alt=""
+                                    @endif
+                                >
                             </td>
-                            <td>
-                                <p class="fw-normal mb-1">{{$comment->video}}</p>
-
+                            <td  style="text-align: center;width: 20%">
+                                @if($comment->video == null)
+                                    <img style="width: 15%" src="{{asset('assets/images/no_video.png')}}" class="testimonial-img" alt="">
+                                @else
+                                    <video width="20%" height="20%" controls>
+                                        <source src="{{asset('img/'.$comment->video)}}" type="video/mp4">
+                                    </video>
+                                @endif
                             </td>
 
-                            <td>
-                                <p class="fw-normal mb-1">{{$comment->likes}}</p>
-
-                            </td>
-
-                            <td>
+                            <td style="text-align: center;width: 5%">
                                 <p class="fw-normal mb-1">{{$comment->postId}}</p>
 
                             </td>
-                            <td>
-                                <button type="button" class="btn btn-link btn-sm btn-rounded">
-                                    Edit
-                                </button>
+
+                            <td style="text-align: center;width: 5%">
+                                <p class="fw-normal mb-1">{{$comment->likes}}</p>
+
+                            </td>
+                            <td style="text-align: center;width: 5%">
+                                <form action="{{route('comments.destroy',$comment->id)}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"class="btn btn-danger"><i class="fa-light fa-trash fa-beat"></i></button>
+                                </form>
                             </td>
                         </tr>
 

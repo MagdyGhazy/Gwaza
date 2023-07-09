@@ -36,7 +36,7 @@ class PostController extends Controller
         if ($request->video == null) {
             $vidPath = null;
         } else {
-            $vidPath = $this->uploadImage($request, 'Post/vid');
+            $vidPath = $this->uploadVedio($request, 'Post/vid');
         }
         $posts = Post::create([
             'postBody' => $request->postBody,
@@ -45,7 +45,7 @@ class PostController extends Controller
             'video' => $vidPath,
         ]);
         if ($posts) {
-            return $this->apiResponse($posts, 201, 'Add Success');
+            return $this->apiResponse(new PostResource($posts), 201, 'Add Success');
         }
         return $this->apiResponse(null, 404, 'Cannot Add Post');
     }
@@ -63,7 +63,7 @@ class PostController extends Controller
                     if ($request->vedio == "") {
                         $vidPath = $posts->vedio;
                     } else {
-                        $vidPath = $this->uploadImage($request, 'Post/vid');
+                        $vidPath = $this->uploadVedio($request, 'Post/vid');
                     }
                     $posts->update([
                         'postBody' => $request->postBody,
@@ -72,7 +72,7 @@ class PostController extends Controller
                         'video' => $vidPath,
                     ]);
                     if ($posts) {
-                        return $this->apiResponse($posts, 201, 'Ubdate Success');
+                        return $this->apiResponse(new PostResource($posts), 201, 'Ubdate Success');
                     }
                     return $this->apiResponse(null, 404, 'Cannot Ubdate Post');
                 }
@@ -90,13 +90,13 @@ class PostController extends Controller
     }
     public function customDestroy($id){
         $posts = Post::find($id);
-        if ($posts->userId == auth()->guard('api')->user()->id) {
-            if ($posts) {
+        if ($posts) {
+            if ($posts->userId == auth()->guard('api')->user()->id) {
                 $posts->delete();
                 return $this->apiResponse(null, 200, 'Post has been deleted');
             }
-            return $this->apiResponse($posts, 401, 'Cannot Find To delete');
+            return response()->json(['message' => 'you are not permissioned']);
         }
-        return response()->json(['message' => 'you are not permissioned']);
+        return $this->apiResponse($posts, 401, 'Cannot Find To delete');
     }
 }
