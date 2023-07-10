@@ -2,7 +2,7 @@
 @section('css')
 
 @section('title')
-    Posts
+ Services
 @stop
 @endsection
 @section('page-header')
@@ -69,15 +69,19 @@
                                 @method('DELETE')
                                 <button type="submit"class="btn btn-danger"><i class="fa-light fa-trash fa-beat"></i></button>
                             </form>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#delete{{ $Team->id }}"
+                                    title="Edit"><i
+                                    class="fa fa-trash"></i></button>
                         </td>
-                                <div class="modal fade" id="edit{{ $Team->id }}" tabindex="-1" role="dialog"
+                                <div class="modal fade" id="edit{{ $serv->id }}" tabindex="-1" role="dialog"
                                      aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title"
                                                     id="exampleModalLabel">
-                                                    {{ trans('aboutus_trans.Edit') }}
+                                                Edit
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                         aria-label="Close">
