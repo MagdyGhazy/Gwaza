@@ -4,6 +4,7 @@ use App\Enums\UserRoleEnum;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ServeProvideController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -32,12 +33,10 @@ Route::group([
 
     Route::group(['middleware' => ['CheckUserType']], function () {
         Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
-
         Route::view('/Admin_profile', 'Admin.profile')->name('Admin_profile');
-
-
         Route::resource('posts', PostController::class);
-
         Route::resource('/comments', CommentController::class);
+        Route::resource('/ServeProvide',  ServeProvideController::class);
+
     });
 });

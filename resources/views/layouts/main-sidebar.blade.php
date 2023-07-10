@@ -59,6 +59,19 @@
                             <li> <a href="{{route('comments.index')}}">Comments</a> </li>
                         </ul>
                     </li>
+                                         <li>
+                                            <a href="javascript:void(0);" data-toggle="collapse" data-target="#chart">
+                                                <div class="pull-left"><i class="ti-pie-chart"></i><span
+                                                        class="right-nav-text">Services</span></div>
+                                                <div class="pull-right"><i class="ti-plus"></i></div>
+                                                <div class="clearfix"></div>
+                                            </a>
+                                            <ul id="chart" class="collapse" data-parent="#sidebarnav">
+                                                <li> <a href="{{route('ServeProvide.index')}}">Services</a> </li>
+
+                                            </ul>
+                                        </li>
+
                     <li>
                     <!-- menu item todo-->
 {{--                    <li>--}}
