@@ -23,7 +23,7 @@ class PostResource extends JsonResource
             'is_liked'=>count($this->likes->where('user_id',auth()->guard('api')->user()->id)) == 1 ? true : false,
             'likes'=>$this->likes,
             'likesCount'=>$this->likeCount,
-            'comments'=>count($this->comments)
+            'comments'=>$this->comments
 
         ];
     }

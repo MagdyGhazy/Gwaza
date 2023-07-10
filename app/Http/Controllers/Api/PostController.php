@@ -49,52 +49,60 @@ class PostController extends Controller
         return $this->apiResponse(null, 404, 'Cannot Add Post');
     }
     public function update(Request $request,$id){
-        $posts = Post::findorfail($id);
-        if ($posts->userId == auth()->guard('api')->user()->id) {
-            if ($request->photo == "") {
-                $imgPath = $posts->photo;
-            } else {
-                $imgPath = $this->uploadImage($request, 'Post/img');
+        $posts = Post::find($id);
+        if ($posts) {
+            if ($posts->userId == auth()->guard('api')->user()->id) {
+                if ($request->photo == "") {
+                    $imgPath = $posts->photo;
+                } else {
+                    $imgPath = $this->uploadImage($request, 'Post/img');
+                }
+                if ($request->vedio == "") {
+                    $vidPath = $posts->vedio;
+                } else {
+                    $vidPath = $this->uploadVedio($request, 'Post/vid');
+                }
+                $posts->update([
+                    'postBody' => $request->postBody,
+                    'userId' => auth()->guard('api')->user()->id,
+                    'photo' => $imgPath,
+                    'video' => $vidPath,
+                ]);
+                if ($posts) {
+                    return $this->apiResponse(new PostResource($posts), 201, 'Update Success');
+                }
+                return $this->apiResponse(null, 404, 'Cannot Update Post');
             }
-            if ($request->vedio == "") {
-                $vidPath = $posts->vedio;
-            } else {
-                $vidPath = $this->uploadVedio($request, 'Post/vid');
-            }
-            $posts->update([
-                'postBody' => $request->postBody,
-                'userId' => auth()->guard('api')->user()->id,
-                'photo' => $imgPath,
-                'video' => $vidPath,
-            ]);
-            if ($posts) {
-                return $this->apiResponse(new PostResource($posts), 201, 'Ubdate Success');
-            }
-            return $this->apiResponse(null, 404, 'Cannot Ubdate Post');
+            return response()->json(['message' => 'you are not permissioned']);
         }
-        return response()->json(['message' => 'you are not permissioned']);
+        return $this->apiResponse($posts,401,'Cannot Find To Update');
     }
     public function likePost($id)
     {
         $post = Post::find($id);
-        $post->like(auth()->guard('api')->user()->id);
-        $post->save();
         if ($post) {
-            return $this->apiResponse(new PostResource($post), 201, 'Post Liked');
+            $post->like(auth()->guard('api')->user()->id);
+            $post->save();
+            if ($post) {
+                return $this->apiResponse(new PostResource($post), 201, 'Post Liked');
+            }
+            return $this->apiResponse(null, 404, 'Cannot Like Post');
         }
-        return $this->apiResponse(null, 404, 'Cannot Like Post');
-
+        return $this->apiResponse($post,401,'Cannot Find To Like');
     }
     public function unlikePost($id)
     {
         $post = Post::find($id);
-        $post->unlike(auth()->guard('api')->user()->id);
-        $post->save();
-
         if ($post) {
-            return $this->apiResponse(new PostResource($post), 201, 'Post UnLiked');
+            $post->unlike(auth()->guard('api')->user()->id);
+            $post->save();
+
+            if ($post) {
+                return $this->apiResponse(new PostResource($post), 201, 'Post UnLiked');
+            }
+            return $this->apiResponse(null, 404, 'Cannot UnLike Post');
         }
-        return $this->apiResponse(null, 404, 'Cannot UnLike Post');
+        return $this->apiResponse($post,401,'Cannot Find To UnLike');
     }
     public function destroy($id){
         $posts = Post::find($id);

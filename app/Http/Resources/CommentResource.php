@@ -18,13 +18,14 @@ class CommentResource extends JsonResource
             'id'=>$this->id,
             'comment body'=>$this->commentBody,
             'user'=>$this->users->name,
-            'post'=>$this->comments->id,
-            'comment'=>$this->commentId,
+            'post'=>$this->Posts->id,
+            'parent_Comment'=>$this->parentCommentId,
             'photo'=>$this->photo,
             'video'=>$this->video,
             'is_liked'=>count($this->likes->where('user_id',auth()->guard('api')->user()->id)) == 1 ? true : false,
             'likes'=>$this->likes,
             'likesCount'=>$this->likeCount,
+            'replies'=>count($this->Posts->comments->where('parentCommentId',$this->id))
         ];
     }
 }

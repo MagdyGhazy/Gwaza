@@ -13,7 +13,7 @@ class Comment extends Model
     protected $fillable = [
         'postId',
         'userId',
-        'commentId',
+        'parentCommentId',
         'commentBody',
         'photo',
         'video',
@@ -23,7 +23,7 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class, 'userId');
     }
-    public function comments()
+    public function Posts()
     {
         return $this->belongsTo(Post::class,'postId');
     }
