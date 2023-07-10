@@ -43,6 +43,7 @@
                         <th style="text-align: center;width: 20%">Comment photo</th>
                         <th style="text-align: center;width: 20%">Comment video</th>
                         <th style="text-align: center;width: 5%">PostId</th>
+                        <th style="text-align: center;width: 5%">parentCommentId</th>
                         <th style="text-align: center;width: 5%">Likes</th>
                         <th style="text-align: center;width: 5%">Actions</th>
 
@@ -99,7 +100,12 @@
                             </td>
 
                             <td style="text-align: center;width: 5%">
-                                <p class="fw-normal mb-1">{{$comment->likes}}</p>
+                                <p class="fw-normal mb-1">{{$comment->parentCommentId}}</p>
+
+                            </td>
+
+                            <td style="text-align: center;width: 5%">
+                                <p class="fw-normal mb-1">{{$comment->likeCount}}</p>
 
                             </td>
                             <td style="text-align: center;width: 5%">

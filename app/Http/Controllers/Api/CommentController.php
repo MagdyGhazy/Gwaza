@@ -35,12 +35,11 @@ class CommentController extends Controller
         } else {
             $vidPath = $this->uploadVedio($request, 'Comments/vid');
         }
-
         $comments = Comment::create([
             'commentBody' => $request->commentBody,
             'userId' => auth()->guard('api')->user()->id,
             'postId' => $request->postId,
-            'commentId' => $request->commentId,
+            'parentCommentId' => $request->parentCommentId,
             'photo' => $imgPath,
             'video' => $vidPath,
         ]);
@@ -50,52 +49,61 @@ class CommentController extends Controller
         return $this->apiResponse(null, 404, 'Cannot Add comments');
     }
     public function update(Request $request,$id){
-        $comments = Comment::findorfail($id);
-        if ($comments->userId == auth()->guard('api')->user()->id) {
-            if ($request->photo == "") {
-                $imgPath = $comments->photo;
-            } else {
-                $imgPath = $this->uploadImage($request, 'Comments/img');
+        $comments = Comment::find($id);
+        if ($comments) {
+            if ($comments->userId == auth()->guard('api')->user()->id) {
+                if ($request->photo == "") {
+                    $imgPath = $comments->photo;
+                } else {
+                    $imgPath = $this->uploadImage($request, 'Comments/img');
+                }
+                if ($request->vedio == "") {
+                    $vidPath = $comments->vedio;
+                } else {
+                    $vidPath = $this->uploadVedio($request, 'Comments/vid');
+                }
+                $comments->update([
+                    'commentBody' => $request->commentBody,
+                    'userId' => auth()->guard('api')->user()->id,
+                    'postId' => $comments->postId,
+                    'photo' => $imgPath,
+                    'video' => $vidPath,
+                ]);
+                if ($comments) {
+                    return $this->apiResponse(new CommentResource($comments), 201, 'Update Success');
+                }
+                return $this->apiResponse(null, 404, 'Cannot Update comment');
             }
-            if ($request->vedio == "") {
-                $vidPath = $comments->vedio;
-            } else {
-                $vidPath = $this->uploadVedio($request, 'Comments/vid');
-            }
-            $comments->update([
-                'commentBody' => $request->commentBody,
-                'userId' => auth()->guard('api')->user()->id,
-                'postId' => $comments->postId,
-                'photo' => $imgPath,
-                'video' => $vidPath,
-            ]);
-            if ($comments) {
-                return $this->apiResponse(new CommentResource($comments), 201, 'Ubdate Success');
-            }
-            return $this->apiResponse(null, 404, 'Cannot Ubdate comment');
+            return response()->json(['message' => 'you are not permissioned']);
         }
-        return response()->json(['message' => 'you are not permissioned']);
+        return $this->apiResponse($comments,401,'Cannot Find To Update');
     }
     public function likeComment($id)
     {
         $comments = Comment::find($id);
-        $comments->like(auth()->guard('api')->user()->id);
-        $comments->save();
         if ($comments) {
-            return $this->apiResponse(new CommentResource($comments), 201, 'comment Liked');
+            $comments->like(auth()->guard('api')->user()->id);
+            $comments->save();
+            if ($comments) {
+                return $this->apiResponse(new CommentResource($comments), 201, 'comment Liked');
+            }
+            return $this->apiResponse(null, 404, 'Cannot Like comment');
         }
-        return $this->apiResponse(null, 404, 'Cannot Like comment');
+        return $this->apiResponse($comments,401,'Cannot Find To Like');
     }
     public function unlikeComment($id)
     {
         $comments = Comment::find($id);
-        $comments->unlike(auth()->guard('api')->user()->id);
-        $comments->save();
-
         if ($comments) {
-            return $this->apiResponse(new CommentResource($comments), 201, 'comment UnLiked');
+            $comments->unlike(auth()->guard('api')->user()->id);
+            $comments->save();
+
+            if ($comments) {
+                return $this->apiResponse(new CommentResource($comments), 201, 'comment UnLiked');
+            }
+            return $this->apiResponse(null, 404, 'Cannot UnLike comment');
         }
-        return $this->apiResponse(null, 404, 'Cannot UnLike comment');
+        return $this->apiResponse($comments,401,'Cannot Find To UnLike');
     }
     public function destroy($id){
         $comments = Comment::find($id);
