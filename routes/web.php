@@ -19,13 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
-
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
     'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth']
 ], function () {
     /** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP */
-
     Route::group(['middleware' => ['guest']], function () {
         Route::get('/', function () {
             return view('auth.login');
@@ -43,8 +41,3 @@ Route::group([
         Route::resource('/comments', CommentController::class);
     });
 });
-
-
-Auth::routes();
-
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');

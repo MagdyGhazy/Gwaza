@@ -38,21 +38,18 @@ Route::group([
     'middleware' => 'CheckUserTypeApi',
     'prefix' => 'auth'
 ],function () {
-
     Route::controller(PostController::class)->group(function () {
         Route::post('/delPost/{id}', 'destroy');
     });
     Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
         Route::post('/delComment/{id}', 'destroy');
     });
-
 });
 
 Route::group([
     'middleware' => 'UserAuth',
     'prefix' => 'auth',
 ],function () {
-
     Route::controller(PostController::class)->group(function () {
         Route::get('/posts', 'index');
         Route::post('/addPost',  'store');
