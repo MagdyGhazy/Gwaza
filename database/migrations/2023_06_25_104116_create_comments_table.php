@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('video')->nullable();
             $table->bigInteger('postId')->nullable();
-            $table->bigInteger('likes')->nullable();
+            $table->bigInteger('commentId')->nullable();
             $table->timestamps();
         });
     }

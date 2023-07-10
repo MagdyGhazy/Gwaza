@@ -19,7 +19,6 @@ return new class extends Migration
             $table->longText('postBody')->nullable();
             $table->string('photo')->nullable();
             $table->string('video')->nullable();
-            $table->bigInteger('likes')->nullable();
             $table->timestamps();
         });
     }

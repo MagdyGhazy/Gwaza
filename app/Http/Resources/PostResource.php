@@ -20,7 +20,9 @@ class PostResource extends JsonResource
             'user'=>$this->users->name,
             'photo'=>$this->photo,
             'video'=>$this->video,
+            'is_liked'=>count($this->likes->where('user_id',auth()->guard('api')->user()->id)) == 1 ? true : false,
             'likes'=>$this->likes,
+            'likesCount'=>$this->likeCount,
             'comments'=>count($this->comments)
 
         ];

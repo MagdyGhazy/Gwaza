@@ -19,9 +19,12 @@ class CommentResource extends JsonResource
             'comment body'=>$this->commentBody,
             'user'=>$this->users->name,
             'post'=>$this->comments->id,
+            'comment'=>$this->commentId,
             'photo'=>$this->photo,
             'video'=>$this->video,
+            'is_liked'=>count($this->likes->where('user_id',auth()->guard('api')->user()->id)) == 1 ? true : false,
             'likes'=>$this->likes,
+            'likesCount'=>$this->likeCount,
         ];
     }
 }

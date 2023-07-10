@@ -97,7 +97,7 @@
                         </td>
 
                         <td style="text-align: center">
-                            <p class="fw-normal mb-1">{{$post->likes}}</p>
+                            <p class="fw-normal mb-1">{{$post->likeCount }}</p>
 
                         </td>
                         <td style="text-align: center">

@@ -58,6 +58,8 @@ Route::group([
         Route::post('/addPost',  'store');
         Route::post('/editPost/{id}', 'update');
         Route::post('/customDelPost/{id}', 'customDestroy');
+        Route::post('/like_post/{id}','likePost');
+        Route::post('/unlike_post/{id}','unlikePost');
     });
 
     Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
@@ -65,6 +67,8 @@ Route::group([
         Route::post('/addComment',  'store');
         Route::post('/editComment/{id}', 'update');
         Route::post('/customDelComment/{id}', 'customDestroy');
+        Route::post('/like_Comment/{id}','likeComment');
+        Route::post('/unlike_Comment/{id}','unlikeComment');
     });
 
 });
