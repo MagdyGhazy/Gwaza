@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
-use App\Models\Post;
+use App\Models\ServeProvide;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class ServeProvideController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return view('Posts.Posts',compact('posts'));
+        $servs=ServeProvide::all();
+        return view('Service.Services',compact('servs'));
     }
 
     /**
@@ -37,16 +36,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+       ServeProvide::create([
+//            'photo'=>$image,
+            'name'=>$request->name,
 
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\ServeProvide  $serveProvide
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(ServeProvide $serveProvide)
     {
         //
     }
@@ -54,10 +57,10 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\ServeProvide  $serveProvide
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(ServeProvide $serveProvide)
     {
         //
     }
@@ -66,23 +69,27 @@ class PostController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\ServeProvide  $serveProvide
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, ServeProvide $serveProvide)
     {
-        //
+        ServeProvide::update([
+//            'photo'=>$image,
+            'name'=>$request->name,
+
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param  \App\Models\ServeProvide  $serveProvide
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        Post::find($id)->delete();
+        ServeProvide::find($id)->delete();
         return redirect()->back();
     }
 }
