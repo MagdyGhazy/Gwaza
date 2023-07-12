@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Models\Skills;
+use App\Models\UserSkill;
 use App\Traits\ApiResponseTrait;
 use App\Traits\UploadImage;
 use Illuminate\Http\Request;
 use App\Enums\UserRoleEnum;
+use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller

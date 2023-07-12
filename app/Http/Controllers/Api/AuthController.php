@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Skills;
 use App\Models\User;
+use App\Models\UserSkill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -67,9 +70,23 @@ class AuthController extends Controller
         ));
         $token = auth()->guard('api')->attempt($validator->validated());
         $this->createNewToken($token);
+        foreach ($request->skills as $skill) {
+            $findSkills = DB::table('Skills')->where('name', $skill)->first();
+            if ($findSkills == null) {
+                $insertSkill = Skills::create(['name' => $skill]);
+                $UserSkill = UserSkill::create([
+                    'user_id' => $user->id,
+                    'skills_id' => $insertSkill->id,
+                ]);
+            } else {
+                UserSkill::create([
+                    'user_id' => $user->id,
+                    'skills_id' => $findSkills->id,
+                ]);
+            }
+        }
         return response()->json([
             'message' => 'User successfully registered',
-
             'token'=>$token,
         ], 201);
     }

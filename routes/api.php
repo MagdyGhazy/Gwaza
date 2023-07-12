@@ -67,6 +67,7 @@ Route::group([
         Route::post('/like_Comment/{id}','likeComment');
         Route::post('/unlike_Comment/{id}','unlikeComment');
     });
+    Route::get('user',[\App\Http\Controllers\Api\SkillController::class,'index']);
 
 });
 

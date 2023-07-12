@@ -15,8 +15,6 @@ class Post extends Model
         'postBody',
         'photo',
         'video',
-
-
     ];
 
     public function users()
