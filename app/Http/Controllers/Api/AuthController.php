@@ -70,21 +70,21 @@ class AuthController extends Controller
         ));
         $token = auth()->guard('api')->attempt($validator->validated());
         $this->createNewToken($token);
-        foreach ($request->skills as $skill) {
-            $findSkills = DB::table('Skills')->where('name', $skill)->first();
-            if ($findSkills == null) {
-                $insertSkill = Skills::create(['name' => $skill]);
-                $UserSkill = UserSkill::create([
-                    'user_id' => $user->id,
-                    'skills_id' => $insertSkill->id,
-                ]);
-            } else {
-                UserSkill::create([
-                    'user_id' => $user->id,
-                    'skills_id' => $findSkills->id,
-                ]);
-            }
-        }
+//        foreach ($request->skills as $skill) {
+//            $findSkills = DB::table('Skills')->where('name', $skill)->first();
+//            if ($findSkills == null) {
+//                $insertSkill = Skills::create(['name' => $skill]);
+//                $UserSkill = UserSkill::create([
+//                    'user_id' => $user->id,
+//                    'skills_id' => $insertSkill->id,
+//                ]);
+//            } else {
+//                UserSkill::create([
+//                    'user_id' => $user->id,
+//                    'skills_id' => $findSkills->id,
+//                ]);
+//            }
+//        }
         return response()->json([
             'message' => 'User successfully registered',
             'token'=>$token,
@@ -123,11 +123,7 @@ class AuthController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function edit(Request $request) {
-
-
-
        $user = auth()->guard('api')->user();
-
         $user->update([
             'name'=> $request->name,
             'password' => bcrypt($request->password),
@@ -140,10 +136,8 @@ class AuthController extends Controller
             'gender'=> $request->gender,
             'user_type'=> $request->user_type,
         ]);
-
         return response()->json([
             'message' => 'User successfully updated',
-
             'user'=>$user,
         ], 201);
     }

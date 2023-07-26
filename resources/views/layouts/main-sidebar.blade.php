@@ -48,29 +48,47 @@
                     <!-- -->
                     <!--menu item Posts -->
                     <li>
-                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#calendar-menu">
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#Posts">
                             <div class="pull-left"><i class="ti-calendar"></i><span
                                     class="right-nav-text">Posts</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
-                        <ul id="calendar-menu" class="collapse" data-parent="#sidebarnav">
+                        <ul id="Posts" class="collapse" data-parent="#sidebarnav">
                             <li> <a href="{{route('posts.index')}}">List Posts </a> </li>
                             <li> <a href="{{route('comments.index')}}">Comments</a> </li>
                         </ul>
                     </li>
-                                         <li>
-                                            <a href="javascript:void(0);" data-toggle="collapse" data-target="#chart">
-                                                <div class="pull-left"><i class="ti-pie-chart"></i><span
-                                                        class="right-nav-text">Services</span></div>
-                                                <div class="pull-right"><i class="ti-plus"></i></div>
-                                                <div class="clearfix"></div>
-                                            </a>
-                                            <ul id="chart" class="collapse" data-parent="#sidebarnav">
-                                                <li> <a href="{{route('ServeProvide.index')}}">Services</a> </li>
+                    <!-- -->
+                    <!--menu item Services -->
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#chart">
+                            <div class="pull-left"><i class="ti-pie-chart"></i><span
+                                    class="right-nav-text">Services</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="chart" class="collapse" data-parent="#sidebarnav">
+                            <li> <a href="{{route('ServeProvide.index')}}">Services</a> </li>
+                        </ul>
+                    </li>
+                    <!-- -->
+                    <!--menu item Providers -->
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#Providers">
+                            <div class="pull-left"><i class="ti-calendar"></i><span
+                                    class="right-nav-text">Providers</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="Providers" class="collapse" data-parent="#sidebarnav">
+                            <li> <a href="{{route('ProviderRequests.index')}}">Provider Requests </a> </li>
+                        </ul>
+                    </li>
+                    <!-- -->
 
-                                            </ul>
-                                        </li>
+
+
 
                     <li>
                     <!-- menu item todo-->

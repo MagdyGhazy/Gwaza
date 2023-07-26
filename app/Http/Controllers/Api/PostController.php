@@ -47,9 +47,9 @@ class PostController extends Controller
             'video' => $vidPath,
         ]);
         if ($posts) {
-            return $this->apiResponse(new PostResource($posts), 201, 'Add Success');
+            return $this->multiableLanguageApiResponse(new PostResource($posts), 'تمت الاضافه', 'Add Success',200);
         }
-        return $this->apiResponse(null, 404, 'Cannot Add Post');
+        return $this->multiableLanguageApiResponse(null, 'لم تتم الاضافه', 'Cannot Add Post',404);
     }
     public function update(Request $request,$id){
         $posts = Post::find($id);
@@ -72,13 +72,13 @@ class PostController extends Controller
                     'video' => $vidPath,
                 ]);
                 if ($posts) {
-                    return $this->apiResponse(new PostResource($posts), 201, 'Update Success');
+                    return $this->multiableLanguageApiResponse(new PostResource($posts), 'تم التعديل', 'update Success',201);
                 }
-                return $this->apiResponse(null, 404, 'Cannot Update Post');
+                return $this->multiableLanguageApiResponse(null, 'لم يتم التعديل', 'Cannot update Post',404);
             }
             return response()->json(['message' => 'you are not permissioned']);
         }
-        return $this->apiResponse($posts,401,'Cannot Find To Update');
+        return $this->multiableLanguageApiResponse($posts,'لم يتم ايجاده','Cannot Find To Update',401);
     }
     public function likePost($id)
     {

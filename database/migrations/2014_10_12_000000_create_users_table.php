@@ -26,6 +26,10 @@ return new class extends Migration
             $table->bigInteger('phone');
             $table->integer('gender');
             $table->integer('user_type');
+            $table->bigInteger('id_number')->nullable();
+            $table->string('id_photo_front')->nullable();
+            $table->string('id_photo_back')->nullable();
+            $table->string('criminal_fish')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
