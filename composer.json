@@ -14,7 +14,8 @@
         "laravel/ui": "^4.2",
         "mcamara/laravel-localization": "^1.8",
         "rtconner/laravel-likeable": "^3.2",
-        "tymon/jwt-auth": "^2.0"
+        "tymon/jwt-auth": "^2.0",
+        "yoeunes/toastr": "^2.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

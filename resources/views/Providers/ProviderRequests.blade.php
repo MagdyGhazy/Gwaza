@@ -37,71 +37,93 @@
                     <table class="table align-middle mb-0 bg-white">
                         <thead class="bg-light">
                         <tr>
-                            <th style="width: 20%">User</th>
-                            <th style="width: 15%">id number</th>
-                            <th style="width: 15%">id photo front</th>
-                            <th style="width: 15%">id photo back</th>
-                            <th style="width: 15%">criminal fish</th>
-                            <th style="width: 20%">Actions</th>
+                            <th style="width: 15%;text-align: center">User</th>
+                            <th style="width: 13%;text-align: center">id number</th>
+                            <th style="width: 15%;text-align: center">id photo front</th>
+                            <th style="width: 15%;text-align: center">id photo back</th>
+                            <th style="width: 15%;text-align: center">criminal fish</th>
+                            <th style="width: 15%;text-align: center">provider type</th>
+                            <th style="width: 12%;text-align: center">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($requests as $request)
 
                             <tr>
-                                <td style="width: 20%">
+                                <td style="width: 15%">
                                     <div class="d-flex align-items-center">
-                                        <img
-                                            @if($request->users->photo == null)
-                                                src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
-                                            @else
-                                                src="{{asset('img/'.$request->users->photo)}}" class="testimonial-img" alt=""
-                                            @endif
-                                            alt=""
-                                            style="width: 45px; height: 45px"
-                                            class="rounded-circle"
-                                        />
+                                        <a href="{{asset('img/'.$request->users->photo)}}">
+                                            <img
+                                                @if($request->users->photo == null)
+                                                    src="{{asset('assets/images/no_user.png')}}" class="testimonial-img" alt=""
+                                                @else
+                                                    src="{{asset('img/'.$request->users->photo)}}" class="testimonial-img" alt=""
+                                                @endif
+                                                alt=""
+                                                style="width: 50%;height: 50%"
+                                                class="rounded-circle"
+                                            />
+                                        </a>
                                         <div class="ms-3">
-                                            <p class="fw-bold mb-1">{{$request->users->name}}</p>
-                                            <p class="text-muted mb-0">{{$request->users->email}}</p>
+                                            <p class="fw-bold mb-1">{{$request->users->first_name}} {{$request->users->mid_name}} {{$request->users->last_name}}</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td style="width: 15%">
+
+
+
+
+                                <td style="width: 13%; text-align: center">
                                     <p class="fw-normal mb-1">{{$request->id_number}}</p>
                                 </td>
-                                <td style="width: 20%">
-                                    <img style="width: 20%"
-                                         @if($request->id_photo_front == null)
-                                             src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
-                                         @else
-                                             src="{{asset('img/'.$request->id_photo_front)}}" class="testimonial-img" alt=""
-                                        @endif
-                                    >
-                                </td>
-                                <td style="width: 15%">
-                                    <img style="width: 20%"
-                                         @if($request->id_photo_back == null)
-                                             src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
-                                         @else
-                                             src="{{asset('img/'.$request->id_photo_back)}}" class="testimonial-img" alt=""
-                                        @endif
-                                    >
+
+
+                                <td style="width: 15%; text-align: center">
+                                    <a href="{{asset('img/'.$request->id_photo_front)}}">
+                                        <img style="width: 50%"
+                                             @if($request->photo == null)
+                                                 src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
+                                             @else
+                                                 src="{{asset('img/'.$request->id_photo_front)}}" class="testimonial-img" alt=""
+                                            @endif
+                                        >
+                                    </a>
                                 </td>
 
 
-                                <td style="width: 15%">
-                                    <img style="width: 20%"
-                                         @if($request->criminal_fish == null)
-                                             src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
-                                         @else
-                                             src="{{asset('img/'.$request->criminal_fish)}}" class="testimonial-img" alt=""
-                                        @endif
-                                    >
+                                <td style="width: 15%; text-align: center">
+                                    <a href="{{asset('img/'.$request->id_photo_back)}}">
+                                        <img style="width: 50%"
+                                             @if($request->id_photo_back == null)
+                                                 src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
+                                             @else
+                                                 src="{{asset('img/'.$request->id_photo_back)}}" class="testimonial-img" alt=""
+                                            @endif
+                                        >
+                                    </a>
                                 </td>
 
 
-                                <td style="align-content: center;width: 20%">
+
+
+
+                                <td style="width: 15%; text-align: center">
+                                    <a href="{{asset('img/'.$request->criminal_fish)}}">
+                                        <img style="width: 50%"
+                                             @if($request->criminal_fish == null)
+                                                 src="{{asset('assets/images/no_photo.png')}}" class="testimonial-img" alt=""
+                                             @else
+                                                 src="{{asset('img/'.$request->criminal_fish)}}" class="testimonial-img" alt=""
+                                            @endif
+                                        >
+                                    </a>
+                                </td>
+
+                                <td style="width: 15%; text-align: center">
+                                    <p class="fw-normal mb-1">{{$request->provider_type}}</p>
+                                </td>
+
+                                <td style="text-align: center ;width: 15%">
                                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                             data-target="#edit{{ $request }}"
                                             title="{{ trans('GradeTrans.Edit') }}"><i class="fa fa-check"></i>
@@ -109,7 +131,7 @@
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#delete{{ $request->id }}"
                                             title="{{ trans('GradesTrans.Delete') }}"><i
-                                            class="fa fa-trash"></i>
+                                            class="fa fa-undo"></i>
                                     </button>
 
                                 </td>
@@ -131,7 +153,7 @@
                                         <div class="modal-header">
                                             <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title"
                                                 id="exampleModalLabel">
-                                               Delete Request
+                                               message to user
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
@@ -142,14 +164,16 @@
                                             <form action="{{ route('ProviderRequests.destroy', 'test') }}" method="post">
                                                 {{ method_field('Delete') }}
                                                 @csrf
-                                                {{ 'do you want to delete'}}
+
                                                 <input id="id" type="hidden" name="id" class="form-control"
                                                        value="{{ $request->id }}">
+                                                <input id="id" type="text" name="message" class="form-control"
+                                                placeholder="enter message here">
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">close</button>
                                                     <button type="submit"
-                                                            class="btn btn-danger">delete</button>
+                                                            class="btn btn-danger">send</button>
                                                 </div>
                                             </form>
                                         </div>

@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Skills;
 use App\Models\User;
 use App\Models\UserSkill;
+use App\Traits\ApiResponseTrait;
+use App\Traits\UploadImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use ApiResponseTrait;
+    use UploadImage;
     /**
      * Create a new AuthController instance.
      *
@@ -27,7 +32,8 @@ class AuthController extends Controller
      */
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+//            'country_code'=> 'required',
+            'phone'=>'required',
             'password' => 'required|string|min:6',
         ]);
         if ($validator->fails()) {
@@ -45,26 +51,36 @@ class AuthController extends Controller
      */
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|between:2,100',
-            'email' => 'required|string|email|max:100|unique:users',
+            'phone' => 'required|string|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
         ]);
+
+        if ($request->photo == null) {
+            $imgPath = null;
+        } else {
+            $imgPath = $this->uploadImage($request, 'User/img');
+        }
+
+        $urlPath =asset('img/'.$imgPath);
+
+
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
         $user = User::create(array_merge(
             $validator->validated(),
             [
-                'name'=> $request->name,
+                'first_name'=> $request->first_name,
+                'last_name'=> $request->last_name,
                 'password' => bcrypt($request->password),
-                'email'=> $request->email,
-                'address'=> $request->address,
-                'latitude'=> $request->latitude,
-                'longitude'=> $request->longitude,
-                'photo'=> $request->photo,
+//                'email'=> $request->email,
+                'governorate'=> $request->governorate,
+                'city'=> $request->city,
+//                'photo'=> $imgPath,
+                'country_code'=> $request->country_code,
                 'phone'=> $request->phone,
                 'gender'=> $request->gender,
-                'user_type'=> $request->user_type,
+                'user_type'=> UserRoleEnum::VISITOR,
 
             ]
         ));
@@ -88,6 +104,8 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User successfully registered',
             'token'=>$token,
+            'user'=>$user,
+
         ], 201);
     }
 
@@ -98,7 +116,8 @@ class AuthController extends Controller
      */
     public function logout() {
         auth()->guard('api')->logout();
-        return response()->json(['message' => 'User successfully signed out']);
+
+        return $this->apiResponse(null, 'User successfully signed out',200 );
     }
     /**
      * Refresh a token.
@@ -153,7 +172,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->guard('api')->factory()->getTTL() * 60,
-            'user' => auth()->guard('api')->user()->name
+            'user' => auth()->guard('api')->user()
         ]);
     }
 }

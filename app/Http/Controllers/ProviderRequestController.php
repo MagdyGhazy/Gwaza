@@ -75,11 +75,15 @@ class ProviderRequestController extends Controller
 
         $find_request = ProviderRequest::find($request->id);
         $get_user = User::find($find_request->user_id);
+        $get_user->message = null;
+        $get_user->save();
         $get_user->update([
+            'photo' => $find_request->photo,
             'id_number' => $find_request->id_number,
             'id_photo_front' => $find_request->id_photo_front,
             'id_photo_back' => $find_request->id_photo_back,
             'criminal_fish' => $find_request->criminal_fish,
+            'provider_type'=> $find_request->provider_type,
             'user_type' => UserRoleEnum::PROVIDER,
         ]);
         if ($get_user) {
@@ -97,8 +101,17 @@ class ProviderRequestController extends Controller
      */
     public function destroy(Request $request)
     {
-        $Grades = ProviderRequest::findOrFail($request->id);
-        $Grades -> Delete();
-        return redirect()->back();
+        $find_request = ProviderRequest::find($request->id);
+        $get_user = User::find($find_request->user_id);
+        $get_user->message = null;
+        $get_user->save();
+        $get_user->update([
+            'message' => $request->message,
+        ]);
+        if ($find_request) {
+            $find_request -> Delete();
+            return redirect()->back();
+        }
+        return redirect()->back()->withErrors();
     }
 }

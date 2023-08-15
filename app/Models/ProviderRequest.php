@@ -11,10 +11,12 @@ class ProviderRequest extends Model
 
     protected $fillable = [
         'user_id',
+        'photo',
         'id_number',
         'id_photo_front',
         'id_photo_back',
         'criminal_fish',
+        'provider_type',
     ];
 
     public function users()

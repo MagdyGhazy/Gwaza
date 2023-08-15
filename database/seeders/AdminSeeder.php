@@ -20,14 +20,14 @@ class AdminSeeder extends Seeder
 
         $admin = User::updateOrCreate(['email' => 'admin@app.com'], [
             'email'     => 'admin@app.com',
-            'name'      => 'Super Admin',
-            'password'  => bcrypt('password'),
-            'address' => 'elmahala',
-            'gender' => '1',
+            'first_name'      => 'Super',
+            'last_name'      => 'Admin',
+            'password'  => bcrypt('Password'),
+            'city' => '1',
+            'gender' => 'male',
             'user_type' => UserRoleEnum::ADMIN,
-            'latitude' => '30.11',
-            'longitude' => '30.28',
-            'phone' => '012714'
+            'phone' => '012714',
+            'country_code' => '020'
         ]);
         //        $admin->assignRole('Super Admin');
         //        $this->command->info('Admin Account Has Been Created Successfully');

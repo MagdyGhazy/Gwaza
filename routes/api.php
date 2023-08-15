@@ -31,7 +31,9 @@ Route::group([
             Route::post('/refresh','refresh');
             Route::get('/user-profile', 'userProfile');
             Route::post('/edit-profile', 'edit');
-    });
+        });
+
+    Route::post('/be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'store']);
 
 });
 Route::group([
@@ -70,7 +72,8 @@ Route::group([
 
     Route::get('/user',[\App\Http\Controllers\Api\SkillController::class,'index']);
 
-    Route::post('/be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'store']);
+    Route::post('/update_be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'update']);
+
 
 });
 
