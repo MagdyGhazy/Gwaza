@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
     {
         if (!app()->runningInConsole()) {
             $egyptianGovernorates = [
-                "Cairo", "Alexandria", "Port Said", "Suez", "Ismailia", "Giza", "Gharbia (El Gharbia)", "Dakahlia (Dakahlia)", "Menoufia (Menoufia)", "Beheira (Beheira)", "Kafr El Sheikh", "Sharkia (Ash Sharqia)", "Damietta (Damietta)", "Qalyubia (Qalyubia)", "Monufia (Monufia)", "Fayoum (Faiyum)", "Beni Suef (Bani Suwayf)", "Minya (Minya)",
-                "Asyut (Assiut)", "Sohag (Suhaj)", "Qena (Qina)", "Luxor (Al Uqsur)", "Aswan (Aswan)", "Red Sea (Sahel al-Bahr al-Ahmar)", "Matrouh (Matruh)", "New Valley (Al Wadi al-Jadid)", "North Sinai (Shamal Sina)"
+                "Cairo", "Alexandria", "Port Said", "Suez", "Ismailia", "Giza", "Gharbia", "Dakahlia", "Menoufia", "Beheira", "Kafr El Sheikh", "Sharkia", "Damietta", "Qalyubia", "Monufia", "Fayoum", "Beni Suef", "Minya",
+                "Asyut", "Sohag", "Qena", "Luxor", "Aswan", "Red Sea", "Matrouh", "New Valley (Al Wadi al-Jadid)", "North Sinai (Shamal Sina)"
             ];
 
             foreach ($egyptianGovernorates as $governorateName) {
