@@ -86,21 +86,7 @@ class AuthController extends Controller
         ));
         $token = auth()->guard('api')->attempt($validator->validated());
         $this->createNewToken($token);
-//        foreach ($request->skills as $skill) {
-//            $findSkills = DB::table('Skills')->where('name', $skill)->first();
-//            if ($findSkills == null) {
-//                $insertSkill = Skills::create(['name' => $skill]);
-//                $UserSkill = UserSkill::create([
-//                    'user_id' => $user->id,
-//                    'skills_id' => $insertSkill->id,
-//                ]);
-//            } else {
-//                UserSkill::create([
-//                    'user_id' => $user->id,
-//                    'skills_id' => $findSkills->id,
-//                ]);
-//            }
-//        }
+
         return response()->json([
             'message' => 'User successfully registered',
             'token'=>$token,

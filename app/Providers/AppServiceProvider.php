@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Models\Governorate;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,17 +26,32 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
         if (!app()->runningInConsole()) {
-            $egyptianGovernorates = [
-                "Cairo", "Alexandria", "Port Said", "Suez", "Ismailia", "Giza", "Gharbia", "Dakahlia", "Menoufia", "Beheira", "Kafr El Sheikh", "Sharkia", "Damietta", "Qalyubia", "Monufia", "Fayoum", "Beni Suef", "Minya",
-                "Asyut", "Sohag", "Qena", "Luxor", "Aswan", "Red Sea", "Matrouh", "New Valley (Al Wadi al-Jadid)", "North Sinai (Shamal Sina)"
-            ];
 
-            foreach ($egyptianGovernorates as $governorateName) {
-                  Governorate::create(['name' => $governorateName]);
-            }
 
-            view()->share('egyptianGovernorates',$egyptianGovernorates);
+            App::singleton('governorates_jsonData', function() {
+
+                $governorates_path = public_path('assets/json/governorates.json');
+                $governorates_contents = file_get_contents($governorates_path);
+                $governorates_jsonData = json_decode($governorates_contents, true);
+                return$governorates_jsonData;
+
+            });
+
+            App::singleton('cities_jsonData', function() {
+
+                $cities_path = public_path('assets/json/cities.json');
+                $cities_contents = file_get_contents($cities_path);
+                $cities_jsonData = json_decode($cities_contents, true);
+                return$cities_jsonData;
+
+            });
+
         }
+
+
+
     }
 }

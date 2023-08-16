@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PostController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -70,9 +71,14 @@ Route::group([
         Route::post('/unlike_Comment/{id}','unlikeComment');
     });
 
-    Route::get('/user',[\App\Http\Controllers\Api\SkillController::class,'index']);
+    Route::get('/git_skills',[\App\Http\Controllers\Api\SkillController::class,'index']);
+    Route::post('/add_skills',[\App\Http\Controllers\Api\SkillController::class,'store']);
+
+    Route::get('/governorates',function (){ $governorates_data = App::make('governorates_jsonData');return $governorates_data;});
+    Route::get('/cities',function (){ $cities_data = App::make('cities_jsonData');return $cities_data;});
 
     Route::post('/update_be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'update']);
+
 
 
 });
