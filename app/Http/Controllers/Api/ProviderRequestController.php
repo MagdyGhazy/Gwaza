@@ -76,19 +76,11 @@ class ProviderRequestController extends Controller
             'criminal_fish' => $criminal_fish_path,
             'provider_type'=> $request->provider_type,
 
-
-
         ]);
         if (!$requests) {
             return $this->multiableLanguageApiResponse(null, 'خطأ', 'error',404);
         }
-        return response()->json([
-            'message ar' => 'يتم مراجعه طلبك',
-            'message en' => 'Your request is being reviewed',
-            'token'=>$token,
-            'user'=>$user,
-
-        ], 201);
+        return $this->multiableLanguageApiResponse(['access_token'=>$token,'user'=>$user], 'يتم مراجعه طلبك', 'Your request is being reviewed',200);
     }
 
     public function update(Request $request){
@@ -129,12 +121,7 @@ class ProviderRequestController extends Controller
         if (!$requests) {
             return $this->multiableLanguageApiResponse(null, 'خطأ', 'error',404);
         }
-        return response()->json([
-            'message ar' => 'يتم مراجعه طلبك',
-            'message en' => 'Your request is being reviewed',
-            'request_data'=>$requests,
-
-        ], 201);
+        return $this->multiableLanguageApiResponse($requests, 'يتم مراجعه طلبك', 'Your request is being reviewed',200);
     }
 
     protected function createNewToken($token){

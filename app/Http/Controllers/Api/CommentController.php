@@ -18,7 +18,7 @@ class CommentController extends Controller
     {
         $comments = CommentResource::collection(Comment::get());
         if ($comments) {
-            return $this->apiResponse($comments, 200, 'done');
+            return $this->apiResponse($comments, "savef", 'done');
         } else {
             return $this->apiResponse(null, 404, 'there are no comments');
         }

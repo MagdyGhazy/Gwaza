@@ -15,24 +15,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
     use ApiResponseTrait;
     use UploadImage;
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
+
+
     public function __construct() {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     public function login(Request $request){
         $validator = Validator::make($request->all(), [
-//            'country_code'=> 'required',
+            'country_code'=> 'required',
             'phone'=>'required',
             'password' => 'required|string|min:6',
         ]);
@@ -42,13 +37,12 @@ class AuthController extends Controller
         if (! $token = auth()->guard('api')->attempt($validator->validated())) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $this->createNewToken($token);
+         $this->createNewToken($token);
+        return $this->multiableLanguageApiResponse(['access_token'=>$token, 'user'=>auth()->guard('api')->user()], 'تم تسجيل الدخول', 'Your are logged in',200);
+
     }
-    /**
-     * Register a User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'phone' => 'required|string|max:100|unique:users',
@@ -87,46 +81,27 @@ class AuthController extends Controller
         $token = auth()->guard('api')->attempt($validator->validated());
         $this->createNewToken($token);
 
-        return response()->json([
-            'message' => 'User successfully registered',
-            'token'=>$token,
-            'user'=>$user,
+        return $this->multiableLanguageApiResponse(['access_token'=>$token, 'user'=>$user], 'تم التسجيل بنجاح', 'User successfully registered',200);
 
-        ], 201);
     }
 
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function logout() {
         auth()->guard('api')->logout();
-
         return $this->apiResponse(null, 'User successfully signed out',200 );
     }
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     public function refresh() {
         return $this->createNewToken(auth()->guard('api')->refresh());
     }
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     public function userProfile() {
         return response()->json(auth()->guard('api')->user());
     }
 
-    /**
-     * update user profile.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function edit(Request $request) {
        $user = auth()->guard('api')->user();
         $user->update([
@@ -146,13 +121,8 @@ class AuthController extends Controller
             'user'=>$user,
         ], 201);
     }
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
+
     protected function createNewToken($token){
         return response()->json([
             'access_token' => $token,

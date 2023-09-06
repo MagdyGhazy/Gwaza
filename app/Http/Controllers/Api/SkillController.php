@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Skills;
 use App\Models\User;
 use App\Models\UserSkill;
+use App\Traits\UploadImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SkillController extends Controller
 {
+    use UploadImage;
+
     public function index()
     {
         $skills = Skills::get();
@@ -49,6 +52,14 @@ class SkillController extends Controller
             }
         }
 
-        return response()->json(['message' => 'successfully add',], 201);
+        return response()->json(['message' => 'successfully add'], 201);
+    }
+
+    public function test(Request $request)
+    {
+        $imgPath = $this->uploadImage($request, 'Post/img');
+
+        return response()->json(['message' => $imgPath], 200);
+
     }
 }

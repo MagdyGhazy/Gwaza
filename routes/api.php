@@ -20,10 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
+
+Route::group([], function ($router) {
 
         Route::controller(AuthController::class)->group(function () {
             Route::post('/login', 'login');
@@ -34,52 +32,53 @@ Route::group([
             Route::post('/edit-profile', 'edit');
         });
 
-    Route::post('/be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'store']);
+        Route::post('/be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'store']);
+        Route::post('/update_be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'update']);
+
+        Route::get('/git_skills',[\App\Http\Controllers\Api\SkillController::class,'index']);
+        Route::post('/add_skills',[\App\Http\Controllers\Api\SkillController::class,'store']);
+
+        Route::get('/governorates',[\App\Http\Controllers\Api\LocationController::class,'governorates']);
+        Route::get('/cities/{governorate_id}',[\App\Http\Controllers\Api\LocationController::class,'cities']);
+
+
+    Route::post('/test',[\App\Http\Controllers\Api\SkillController::class,'test']);
+
+
 
 });
+
 Route::group([
     'middleware' => 'CheckUserTypeApi',
-    'prefix' => 'auth'
-],function () {
-    Route::controller(PostController::class)->group(function () {
-        Route::post('/delPost/{id}', 'destroy');
+    ],function () {
+        Route::controller(PostController::class)->group(function () {
+            Route::post('/delPost/{id}', 'destroy');
+        });
+        Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
+            Route::post('/delComment/{id}', 'destroy');
+        });
     });
-    Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
-        Route::post('/delComment/{id}', 'destroy');
-    });
-});
 
 Route::group([
     'middleware' => 'UserAuth',
-    'prefix' => 'auth',
-],function () {
-    Route::controller(PostController::class)->group(function () {
-        Route::get('/posts', 'index');
-        Route::post('/addPost',  'store');
-        Route::post('/editPost/{id}', 'update');
-        Route::post('/customDelPost/{id}', 'customDestroy');
-        Route::post('/like_post/{id}','likePost');
-        Route::post('/unlike_post/{id}','unlikePost');
+    ],function () {
+        Route::controller(PostController::class)->group(function () {
+            Route::get('/posts', 'index');
+            Route::post('/addPost',  'store');
+            Route::post('/editPost/{id}', 'update');
+            Route::post('/customDelPost/{id}', 'customDestroy');
+            Route::post('/like_post/{id}','likePost');
+            Route::post('/unlike_post/{id}','unlikePost');
+        });
+
+        Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
+            Route::get('/comments', 'index');
+            Route::post('/addComment',  'store');
+            Route::post('/editComment/{id}', 'update');
+            Route::post('/customDelComment/{id}', 'customDestroy');
+            Route::post('/like_Comment/{id}','likeComment');
+            Route::post('/unlike_Comment/{id}','unlikeComment');
+        });
+
     });
-
-    Route::controller(\App\Http\Controllers\Api\CommentController::class)->group(function () {
-        Route::get('/comments', 'index');
-        Route::post('/addComment',  'store');
-        Route::post('/editComment/{id}', 'update');
-        Route::post('/customDelComment/{id}', 'customDestroy');
-        Route::post('/like_Comment/{id}','likeComment');
-        Route::post('/unlike_Comment/{id}','unlikeComment');
-    });
-
-    Route::get('/git_skills',[\App\Http\Controllers\Api\SkillController::class,'index']);
-    Route::post('/add_skills',[\App\Http\Controllers\Api\SkillController::class,'store']);
-
-    Route::get('/governorates',function (){ $governorates_data = App::make('governorates_jsonData');return $governorates_data;});
-    Route::get('/cities',function (){ $cities_data = App::make('cities_jsonData');return $cities_data;});
-
-    Route::post('/update_be_provider',[\App\Http\Controllers\Api\ProviderRequestController::class,'update']);
-
-
-
-});
 
